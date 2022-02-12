@@ -66,8 +66,9 @@ pipeline {
         stage("Publish to docker-hub") {
             steps {
                 echo 'Publish to docker_Hub'
-                }
+                
             }
+            
         }
     }
 }
