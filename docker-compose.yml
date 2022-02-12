@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+
+  jenkins:
+    container_name: Jenkins
+    image: jenkins/jenkins
+    volumes:
+       - /home/jenkins/jenkins-data/jenkins_home/:/var/jenkins_home
+       - /var/run/docker.sock:/var/run/docker.sock
+       - ${DOCKER_PATH}:/usr/bin/docker:ro    #DOCKER_PATH=$(which docker) docker-compose up -d
+    networks:
+      - sonarnet
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+  sonarqube:
+    container_name: SonarQube
+    image: sonarqube 
+    volumes:
+      - /home/sonarqube_conf:/opt/sonarqube/conf
+      - /home/sonarqube_data:/opt/sonarqube/data
+      - /home/sonarqube_extensions:/opt/sonarqube/extensions
+      - /home/sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    networks:
+      - sonarnet
+    ports:
+      - '9000:9000'
+networks:
+  sonarnet:
+    driver: bridge
